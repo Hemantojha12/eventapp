@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Search, Calendar, MapPin, Users, Star, TrendingUp } from 'lucide-react-native';
-import Navbar from '../components/navbar';
 
 const EVENTS = [
   {
@@ -109,20 +108,26 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Navigation Bar with Logo and Search */}
-      <Navbar 
-        showSearch={true}
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-      />
-
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-        {/* Greeting Section */}
+      {/* Header with Search */}
+      <View style={styles.header}>
         <View style={styles.greetingSection}>
           <Text style={styles.greeting}>Hello! 👋</Text>
           <Text style={styles.title}>Discover Events</Text>
         </View>
+        
+        <View style={styles.searchContainer}>
+          <Search size={20} color="#6b7280" />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search events..."
+            placeholderTextColor="#9ca3af"
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+          />
+        </View>
+      </View>
 
+      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* Featured Events */}
         {searchQuery === '' && selectedCategory === 'All' && (
           <View style={styles.section}>
@@ -137,7 +142,7 @@ export default function HomeScreen() {
                 <TouchableOpacity
                   key={event.id}
                   style={styles.featuredCard}
-                  onPress={() => router.push(`/event/${event.id}`)}
+                  onPress={() => router.push(`/events/${event.id}`)}
                   activeOpacity={0.9}
                 >
                   <Image source={{ uri: event.image }} style={styles.featuredImage} />
@@ -201,7 +206,7 @@ export default function HomeScreen() {
             <TouchableOpacity
               key={event.id}
               style={styles.eventCard}
-              onPress={() => router.push(`/event/${event.id}`)}
+              onPress={() => router.push(`/events/${event.id}`)}
               activeOpacity={0.9}
             >
               <Image source={{ uri: event.image }} style={styles.eventImage} />
@@ -249,6 +254,8 @@ export default function HomeScreen() {
             <Text style={styles.emptyText}>Try adjusting your search or filters</Text>
           </View>
         )}
+        
+        <View style={{ height: 20 }} />
       </ScrollView>
     </View>
   );
@@ -259,13 +266,21 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f9fafb',
   },
-  content: {
-    flex: 1,
+  header: {
+    backgroundColor: '#ffffff',
+    paddingTop: 60,
+    paddingHorizontal: 20,
+    paddingBottom: 16,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 3,
   },
   greetingSection: {
-    paddingHorizontal: 20,
-    paddingTop: 24,
-    paddingBottom: 8,
+    marginBottom: 16,
   },
   greeting: {
     fontSize: 16,
@@ -277,9 +292,26 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#1f2937',
   },
-  section: {
-    marginTop: 8,
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f3f4f6',
     paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 16,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    color: '#1f2937',
+    marginLeft: 8,
+  },
+  content: {
+    flex: 1,
+  },
+  section: {
+    marginTop: 20,
+    paddingHorizontal: 20,
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -304,12 +336,12 @@ const styles = StyleSheet.create({
   },
   featuredScroll: {
     marginTop: 12,
-    marginLeft: -16,
+    marginLeft: -20,
   },
   featuredCard: {
     width: 320,
     height: 240,
-    marginLeft: 16,
+    marginLeft: 20,
     borderRadius: 16,
     overflow: 'hidden',
     backgroundColor: '#ffffff',
@@ -376,7 +408,7 @@ const styles = StyleSheet.create({
   },
   categoriesContainer: {
     marginTop: 20,
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
     marginBottom: 8,
   },
   categoryChip: {
@@ -401,7 +433,7 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
   eventsGrid: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
     paddingTop: 8,
     paddingBottom: 20,
   },

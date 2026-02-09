@@ -1,9 +1,8 @@
 import { useState, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { User, Settings, LogOut, LogIn, Bell, HelpCircle, Shield, ChevronRight } from 'lucide-react-native';
-import Navbar from '../components/navbar';
 
 export default function ProfileScreen() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -39,6 +38,7 @@ export default function ProfileScreen() {
           onPress: async () => {
             await AsyncStorage.removeItem('@auth_token');
             setIsAuthenticated(false);
+            Alert.alert('Success', 'You have been logged out');
           },
         },
       ]
@@ -48,7 +48,9 @@ export default function ProfileScreen() {
   if (loading) {
     return (
       <View style={styles.container}>
-        <Navbar title="Profile" />
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Profile</Text>
+        </View>
       </View>
     );
   }
@@ -57,7 +59,9 @@ export default function ProfileScreen() {
   if (!isAuthenticated) {
     return (
       <View style={styles.container}>
-        <Navbar title="Profile" />
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Profile</Text>
+        </View>
 
         <View style={styles.content}>
           <View style={styles.guestSection}>
@@ -94,85 +98,95 @@ export default function ProfileScreen() {
   // Authenticated - show profile
   return (
     <View style={styles.container}>
-      <Navbar title="Profile" />
-
-      <View style={styles.content}>
-        {/* Profile Header Card */}
-        <View style={styles.profileSection}>
-          <View style={styles.avatar}>
-            <User size={40} color="#0ea5e9" />
-          </View>
-          <Text style={styles.name}>John Doe</Text>
-          <Text style={styles.email}>john.doe@example.com</Text>
-          <TouchableOpacity style={styles.editProfileButton}>
-            <Text style={styles.editProfileText}>Edit Profile</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Menu Sections */}
-        <View style={styles.menuContainer}>
-          {/* Account Settings */}
-          <View style={styles.menuSection}>
-            <Text style={styles.sectionTitle}>Account</Text>
-            
-            <TouchableOpacity style={styles.menuItem}>
-              <View style={styles.menuItemLeft}>
-                <View style={[styles.iconContainer, { backgroundColor: '#eff6ff' }]}>
-                  <Settings size={20} color="#0ea5e9" />
-                </View>
-                <Text style={styles.menuText}>Settings</Text>
-              </View>
-              <ChevronRight size={20} color="#9ca3af" />
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.menuItem}>
-              <View style={styles.menuItemLeft}>
-                <View style={[styles.iconContainer, { backgroundColor: '#fef3c7' }]}>
-                  <Bell size={20} color="#f59e0b" />
-                </View>
-                <Text style={styles.menuText}>Notifications</Text>
-              </View>
-              <ChevronRight size={20} color="#9ca3af" />
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.menuItem}>
-              <View style={styles.menuItemLeft}>
-                <View style={[styles.iconContainer, { backgroundColor: '#f3e8ff' }]}>
-                  <Shield size={20} color="#a855f7" />
-                </View>
-                <Text style={styles.menuText}>Privacy & Security</Text>
-              </View>
-              <ChevronRight size={20} color="#9ca3af" />
-            </TouchableOpacity>
-          </View>
-
-          {/* Support Section */}
-          <View style={styles.menuSection}>
-            <Text style={styles.sectionTitle}>Support</Text>
-            
-            <TouchableOpacity style={styles.menuItem}>
-              <View style={styles.menuItemLeft}>
-                <View style={[styles.iconContainer, { backgroundColor: '#dbeafe' }]}>
-                  <HelpCircle size={20} color="#3b82f6" />
-                </View>
-                <Text style={styles.menuText}>Help Center</Text>
-              </View>
-              <ChevronRight size={20} color="#9ca3af" />
-            </TouchableOpacity>
-          </View>
-
-          {/* Logout Section */}
-          <View style={styles.menuSection}>
-            <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-              <LogOut size={20} color="#ef4444" />
-              <Text style={styles.logoutText}>Logout</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* App Version */}
-        <Text style={styles.versionText}>Version 1.0.0</Text>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Profile</Text>
       </View>
+
+      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+        <View style={styles.content}>
+          {/* Profile Header Card */}
+          <View style={styles.profileSection}>
+            <View style={styles.avatar}>
+              <User size={40} color="#0ea5e9" />
+            </View>
+            <Text style={styles.name}>John Doe</Text>
+            <Text style={styles.email}>john.doe@example.com</Text>
+            <TouchableOpacity style={styles.editProfileButton}>
+              <Text style={styles.editProfileText}>Edit Profile</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Menu Sections */}
+          <View style={styles.menuContainer}>
+            {/* Account Settings */}
+            <View style={styles.menuSection}>
+              <Text style={styles.sectionTitle}>Account</Text>
+              
+              <TouchableOpacity style={styles.menuItem}>
+                <View style={styles.menuItemLeft}>
+                  <View style={[styles.iconContainer, { backgroundColor: '#eff6ff' }]}>
+                    <Settings size={20} color="#0ea5e9" />
+                  </View>
+                  <Text style={styles.menuText}>Settings</Text>
+                </View>
+                <ChevronRight size={20} color="#9ca3af" />
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.menuItem}>
+                <View style={styles.menuItemLeft}>
+                  <View style={[styles.iconContainer, { backgroundColor: '#fef3c7' }]}>
+                    <Bell size={20} color="#f59e0b" />
+                  </View>
+                  <Text style={styles.menuText}>Notifications</Text>
+                </View>
+                <ChevronRight size={20} color="#9ca3af" />
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.menuItem}>
+                <View style={styles.menuItemLeft}>
+                  <View style={[styles.iconContainer, { backgroundColor: '#f3e8ff' }]}>
+                    <Shield size={20} color="#a855f7" />
+                  </View>
+                  <Text style={styles.menuText}>Privacy & Security</Text>
+                </View>
+                <ChevronRight size={20} color="#9ca3af" />
+              </TouchableOpacity>
+            </View>
+
+            {/* Support Section */}
+            <View style={styles.menuSection}>
+              <Text style={styles.sectionTitle}>Support</Text>
+              
+              <TouchableOpacity style={styles.menuItem}>
+                <View style={styles.menuItemLeft}>
+                  <View style={[styles.iconContainer, { backgroundColor: '#dbeafe' }]}>
+                    <HelpCircle size={20} color="#3b82f6" />
+                  </View>
+                  <Text style={styles.menuText}>Help Center</Text>
+                </View>
+                <ChevronRight size={20} color="#9ca3af" />
+              </TouchableOpacity>
+            </View>
+
+            {/* Logout Section - More Prominent */}
+            <View style={styles.logoutSection}>
+              <TouchableOpacity 
+                style={styles.logoutButton} 
+                onPress={handleLogout}
+                activeOpacity={0.7}
+              >
+                <View style={styles.logoutIconContainer}>
+                  <LogOut size={20} color="#ef4444" />
+                </View>
+                <Text style={styles.logoutText}>Logout</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* App Version */}
+          <Text style={styles.versionText}>Version 1.0.0</Text>
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -182,9 +196,25 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f9fafb',
   },
-  content: {
+  header: {
+    backgroundColor: '#ffffff',
+    paddingTop: 60,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f3f4f6',
+  },
+  headerTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#1f2937',
+  },
+  scrollView: {
     flex: 1,
+  },
+  content: {
     padding: 20,
+    paddingBottom: 40,
   },
   guestSection: {
     flex: 1,
@@ -193,6 +223,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderRadius: 16,
     padding: 32,
+    marginTop: 40,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -254,7 +285,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderRadius: 16,
     padding: 24,
-    marginBottom: 24,
+    marginBottom: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -339,13 +370,32 @@ const styles = StyleSheet.create({
     color: '#1f2937',
     fontWeight: '500',
   },
+  logoutSection: {
+    backgroundColor: '#ffffff',
+    borderRadius: 16,
+    padding: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
+  },
   logoutButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 16,
-    gap: 8,
+    gap: 12,
     borderRadius: 12,
+    backgroundColor: '#fef2f2',
+  },
+  logoutIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#fee2e2',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   logoutText: {
     fontSize: 16,
