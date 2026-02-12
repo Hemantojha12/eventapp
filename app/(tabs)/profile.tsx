@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { User, Settings, LogOut, LogIn, Bell, HelpCircle, Shield, ChevronRight } from 'lucide-react-native';
@@ -47,9 +47,9 @@ export default function ProfileScreen() {
 
   if (loading) {
     return (
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Profile</Text>
+      <View className="flex-1 bg-gray-50">
+        <View className="bg-white pt-15 pb-5 px-5 border-b border-gray-100">
+          <Text className="text-3xl font-bold text-gray-800">Profile</Text>
         </View>
       </View>
     );
@@ -58,35 +58,35 @@ export default function ProfileScreen() {
   // Not authenticated - show login/signup options
   if (!isAuthenticated) {
     return (
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Profile</Text>
+      <View className="flex-1 bg-gray-50">
+        <View className="bg-white pt-15 pb-5 px-5 border-b border-gray-100">
+          <Text className="text-3xl font-bold text-gray-800">Profile</Text>
         </View>
 
-        <View style={styles.content}>
-          <View style={styles.guestSection}>
-            <View style={styles.guestAvatar}>
+        <View className="p-5 pb-10">
+          <View className="items-center justify-center bg-white rounded-2xl p-8 mt-10 shadow-lg">
+            <View className="w-25 h-25 rounded-full bg-gray-100 items-center justify-center mb-6">
               <User size={50} color="#9ca3af" />
             </View>
-            <Text style={styles.guestTitle}>Welcome to Eventa</Text>
-            <Text style={styles.guestText}>
+            <Text className="text-2xl font-bold text-gray-800 mb-2">Welcome to Eventa</Text>
+            <Text className="text-base text-gray-500 text-center mb-8">
               Sign in to book events and manage your tickets
             </Text>
 
-            <View style={styles.buttonContainer}>
+            <View className="w-full gap-3">
               <TouchableOpacity
-                style={styles.primaryButton}
+                className="flex-row bg-sky-500 p-4 rounded-xl items-center justify-center gap-2"
                 onPress={() => router.push('/auth/login')}
               >
                 <LogIn size={20} color="#ffffff" />
-                <Text style={styles.primaryButtonText}>Login</Text>
+                <Text className="text-white text-base font-semibold">Login</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={styles.secondaryButton}
+                className="bg-gray-100 p-4 rounded-xl items-center"
                 onPress={() => router.push('/auth/register')}
               >
-                <Text style={styles.secondaryButtonText}>Create Account</Text>
+                <Text className="text-gray-800 text-base font-semibold">Create Account</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -97,316 +97,100 @@ export default function ProfileScreen() {
 
   // Authenticated - show profile
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Profile</Text>
+    <View className="flex-1 bg-gray-50">
+      <View className="bg-white pt-15 pb-5 px-5 border-b border-gray-100">
+        <Text className="text-3xl font-bold text-gray-800">Profile</Text>
       </View>
 
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        <View style={styles.content}>
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+        <View className="p-5 pb-10">
           {/* Profile Header Card */}
-          <View style={styles.profileSection}>
-            <View style={styles.avatar}>
+          <View className="items-center bg-white rounded-2xl p-6 mb-5 shadow-lg">
+            <View className="w-20 h-20 rounded-full bg-sky-100 items-center justify-center mb-4">
               <User size={40} color="#0ea5e9" />
             </View>
-            <Text style={styles.name}>John Doe</Text>
-            <Text style={styles.email}>john.doe@example.com</Text>
-            <TouchableOpacity style={styles.editProfileButton}>
-              <Text style={styles.editProfileText}>Edit Profile</Text>
+            <Text className="text-2xl font-bold text-gray-800 mb-1">John Doe</Text>
+            <Text className="text-base text-gray-500 mb-4">john.doe@example.com</Text>
+            <TouchableOpacity className="bg-gray-100 px-6 py-2.5 rounded-full">
+              <Text className="text-sm font-semibold text-gray-800">Edit Profile</Text>
             </TouchableOpacity>
           </View>
 
           {/* Menu Sections */}
-          <View style={styles.menuContainer}>
+          <View className="gap-4">
             {/* Account Settings */}
-            <View style={styles.menuSection}>
-              <Text style={styles.sectionTitle}>Account</Text>
+            <View className="bg-white rounded-2xl p-1 shadow-md">
+              <Text className="text-sm font-semibold text-gray-500 px-4 pt-3 pb-2 uppercase tracking-wide">
+                Account
+              </Text>
               
-              <TouchableOpacity style={styles.menuItem}>
-                <View style={styles.menuItemLeft}>
-                  <View style={[styles.iconContainer, { backgroundColor: '#eff6ff' }]}>
+              <TouchableOpacity className="flex-row items-center justify-between p-4 rounded-xl">
+                <View className="flex-row items-center gap-3">
+                  <View className="w-10 h-10 rounded-full bg-blue-50 items-center justify-center">
                     <Settings size={20} color="#0ea5e9" />
                   </View>
-                  <Text style={styles.menuText}>Settings</Text>
+                  <Text className="text-base text-gray-800 font-medium">Settings</Text>
                 </View>
                 <ChevronRight size={20} color="#9ca3af" />
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.menuItem}>
-                <View style={styles.menuItemLeft}>
-                  <View style={[styles.iconContainer, { backgroundColor: '#fef3c7' }]}>
+              <TouchableOpacity className="flex-row items-center justify-between p-4 rounded-xl">
+                <View className="flex-row items-center gap-3">
+                  <View className="w-10 h-10 rounded-full bg-amber-50 items-center justify-center">
                     <Bell size={20} color="#f59e0b" />
                   </View>
-                  <Text style={styles.menuText}>Notifications</Text>
+                  <Text className="text-base text-gray-800 font-medium">Notifications</Text>
                 </View>
                 <ChevronRight size={20} color="#9ca3af" />
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.menuItem}>
-                <View style={styles.menuItemLeft}>
-                  <View style={[styles.iconContainer, { backgroundColor: '#f3e8ff' }]}>
+              <TouchableOpacity className="flex-row items-center justify-between p-4 rounded-xl">
+                <View className="flex-row items-center gap-3">
+                  <View className="w-10 h-10 rounded-full bg-purple-50 items-center justify-center">
                     <Shield size={20} color="#a855f7" />
                   </View>
-                  <Text style={styles.menuText}>Privacy & Security</Text>
+                  <Text className="text-base text-gray-800 font-medium">Privacy & Security</Text>
                 </View>
                 <ChevronRight size={20} color="#9ca3af" />
               </TouchableOpacity>
             </View>
 
             {/* Support Section */}
-            <View style={styles.menuSection}>
-              <Text style={styles.sectionTitle}>Support</Text>
+            <View className="bg-white rounded-2xl p-1 shadow-md">
+              <Text className="text-sm font-semibold text-gray-500 px-4 pt-3 pb-2 uppercase tracking-wide">
+                Support
+              </Text>
               
-              <TouchableOpacity style={styles.menuItem}>
-                <View style={styles.menuItemLeft}>
-                  <View style={[styles.iconContainer, { backgroundColor: '#dbeafe' }]}>
+              <TouchableOpacity className="flex-row items-center justify-between p-4 rounded-xl">
+                <View className="flex-row items-center gap-3">
+                  <View className="w-10 h-10 rounded-full bg-blue-100 items-center justify-center">
                     <HelpCircle size={20} color="#3b82f6" />
                   </View>
-                  <Text style={styles.menuText}>Help Center</Text>
+                  <Text className="text-base text-gray-800 font-medium">Help Center</Text>
                 </View>
                 <ChevronRight size={20} color="#9ca3af" />
               </TouchableOpacity>
             </View>
 
             {/* Logout Section - More Prominent */}
-            <View style={styles.logoutSection}>
+            <View className="bg-white rounded-2xl p-2 shadow-md">
               <TouchableOpacity 
-                style={styles.logoutButton} 
+                className="flex-row items-center justify-center p-4 gap-3 rounded-xl bg-red-50"
                 onPress={handleLogout}
                 activeOpacity={0.7}
               >
-                <View style={styles.logoutIconContainer}>
+                <View className="w-10 h-10 rounded-full bg-red-100 items-center justify-center">
                   <LogOut size={20} color="#ef4444" />
                 </View>
-                <Text style={styles.logoutText}>Logout</Text>
+                <Text className="text-base text-red-500 font-semibold">Logout</Text>
               </TouchableOpacity>
             </View>
           </View>
 
           {/* App Version */}
-          <Text style={styles.versionText}>Version 1.0.0</Text>
+          <Text className="text-sm text-gray-400 text-center mt-6 mb-4">Version 1.0.0</Text>
         </View>
       </ScrollView>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f9fafb',
-  },
-  header: {
-    backgroundColor: '#ffffff',
-    paddingTop: 60,
-    paddingBottom: 20,
-    paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f3f4f6',
-  },
-  headerTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#1f2937',
-  },
-  scrollView: {
-    flex: 1,
-  },
-  content: {
-    padding: 20,
-    paddingBottom: 40,
-  },
-  guestSection: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#ffffff',
-    borderRadius: 16,
-    padding: 32,
-    marginTop: 40,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-  guestAvatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: '#f3f4f6',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 24,
-  },
-  guestTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#1f2937',
-    marginBottom: 8,
-  },
-  guestText: {
-    fontSize: 16,
-    color: '#6b7280',
-    textAlign: 'center',
-    marginBottom: 32,
-  },
-  buttonContainer: {
-    width: '100%',
-    gap: 12,
-  },
-  primaryButton: {
-    flexDirection: 'row',
-    backgroundColor: '#0ea5e9',
-    padding: 16,
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-  },
-  primaryButtonText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  secondaryButton: {
-    backgroundColor: '#f3f4f6',
-    padding: 16,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  secondaryButtonText: {
-    color: '#1f2937',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  profileSection: {
-    alignItems: 'center',
-    backgroundColor: '#ffffff',
-    borderRadius: 16,
-    padding: 24,
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-  avatar: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#e0f2fe',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 16,
-  },
-  name: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#1f2937',
-    marginBottom: 4,
-  },
-  email: {
-    fontSize: 16,
-    color: '#6b7280',
-    marginBottom: 16,
-  },
-  editProfileButton: {
-    backgroundColor: '#f3f4f6',
-    paddingHorizontal: 24,
-    paddingVertical: 10,
-    borderRadius: 20,
-  },
-  editProfileText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#1f2937',
-  },
-  menuContainer: {
-    gap: 16,
-  },
-  menuSection: {
-    backgroundColor: '#ffffff',
-    borderRadius: 16,
-    padding: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
-  },
-  sectionTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#6b7280',
-    paddingHorizontal: 16,
-    paddingTop: 12,
-    paddingBottom: 8,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  menuItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 16,
-    borderRadius: 12,
-  },
-  menuItemLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  iconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  menuText: {
-    fontSize: 16,
-    color: '#1f2937',
-    fontWeight: '500',
-  },
-  logoutSection: {
-    backgroundColor: '#ffffff',
-    borderRadius: 16,
-    padding: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
-  },
-  logoutButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 16,
-    gap: 12,
-    borderRadius: 12,
-    backgroundColor: '#fef2f2',
-  },
-  logoutIconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#fee2e2',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logoutText: {
-    fontSize: 16,
-    color: '#ef4444',
-    fontWeight: '600',
-  },
-  versionText: {
-    fontSize: 14,
-    color: '#9ca3af',
-    textAlign: 'center',
-    marginTop: 24,
-    marginBottom: 16,
-  },
-});

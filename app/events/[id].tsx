@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Linking, Alert } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Image, Linking, Alert } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { ArrowLeft, Calendar, MapPin, Clock, Users, Star, Navigation, Share2, Heart, Ticket } from 'lucide-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -96,7 +96,7 @@ export default function EventDetailScreen() {
 
   if (!event) {
     return (
-      <View style={styles.container}>
+      <View className="flex-1 bg-white">
         <Text>Event not found</Text>
       </View>
     );
@@ -137,19 +137,27 @@ export default function EventDetailScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1 bg-white">
       {/* Navbar with Back Button */}
-      <View style={styles.headerContainer}>
-        <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+      <View className="relative">
+        <TouchableOpacity 
+          className="absolute left-5 top-[70px] z-10 w-10 h-10 rounded-full bg-white items-center justify-center shadow-md"
+          onPress={() => router.back()}
+        >
           <ArrowLeft size={24} color="#1f2937" />
         </TouchableOpacity>
+        
         <Navbar />
-        <View style={styles.headerActions}>
-          <TouchableOpacity style={styles.headerActionButton} onPress={handleShare}>
+        
+        <View className="absolute right-5 top-[70px] z-10 flex-row gap-2">
+          <TouchableOpacity 
+            className="w-10 h-10 rounded-full bg-white items-center justify-center shadow-md"
+            onPress={handleShare}
+          >
             <Share2 size={20} color="#1f2937" />
           </TouchableOpacity>
           <TouchableOpacity 
-            style={styles.headerActionButton} 
+            className="w-10 h-10 rounded-full bg-white items-center justify-center shadow-md"
             onPress={() => setIsFavorite(!isFavorite)}
           >
             <Heart 
@@ -163,76 +171,76 @@ export default function EventDetailScreen() {
 
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Hero Image */}
-        <View style={styles.heroContainer}>
-          <Image source={{ uri: event.image }} style={styles.heroImage} />
+        <View className="h-[300px] relative">
+          <Image source={{ uri: event.image }} className="w-full h-full" />
           
           {/* Category Badge */}
-          <View style={styles.heroCategoryBadge}>
-            <Text style={styles.heroCategoryText}>{event.category}</Text>
+          <View className="absolute bottom-5 left-5 bg-sky-500/95 px-4 py-2 rounded-3xl">
+            <Text className="text-white text-sm font-semibold">{event.category}</Text>
           </View>
         </View>
 
-        <View style={styles.content}>
+        <View className="p-5">
           {/* Title & Rating */}
-          <View style={styles.titleSection}>
-            <Text style={styles.title}>{event.title}</Text>
-            <View style={styles.ratingContainer}>
+          <View className="mb-3">
+            <Text className="text-[28px] font-bold text-gray-800 mb-3">{event.title}</Text>
+            <View className="flex-row items-center gap-1.5">
               <Star size={20} color="#fbbf24" fill="#fbbf24" />
-              <Text style={styles.rating}>{event.rating}</Text>
-              <Text style={styles.reviews}>({event.reviews} reviews)</Text>
+              <Text className="text-base font-semibold text-gray-800">{event.rating}</Text>
+              <Text className="text-sm text-gray-500">({event.reviews} reviews)</Text>
             </View>
           </View>
 
           {/* Organizer */}
-          <View style={styles.organizerSection}>
-            <Text style={styles.organizerLabel}>Organized by</Text>
-            <Text style={styles.organizerName}>{event.organizer}</Text>
+          <View className="mb-6">
+            <Text className="text-sm text-gray-500 mb-1">Organized by</Text>
+            <Text className="text-base font-semibold text-gray-800">{event.organizer}</Text>
           </View>
 
           {/* Info Cards */}
-          <View style={styles.infoCards}>
-            <View style={styles.infoCard}>
+          <View className="flex-row gap-3 mb-8">
+            <View className="flex-1 bg-gray-50 p-4 rounded-xl items-center">
               <Calendar size={24} color="#0ea5e9" />
-              <Text style={styles.infoCardLabel}>Date</Text>
-              <Text style={styles.infoCardValue}>{event.date}</Text>
+              <Text className="text-xs text-gray-500 mt-2 mb-1">Date</Text>
+              <Text className="text-sm font-semibold text-gray-800 text-center">{event.date}</Text>
             </View>
-            <View style={styles.infoCard}>
+            <View className="flex-1 bg-gray-50 p-4 rounded-xl items-center">
               <Clock size={24} color="#10b981" />
-              <Text style={styles.infoCardLabel}>Time</Text>
-              <Text style={styles.infoCardValue}>{event.time.split(' - ')[0]}</Text>
+              <Text className="text-xs text-gray-500 mt-2 mb-1">Time</Text>
+              <Text className="text-sm font-semibold text-gray-800 text-center">{event.time.split(' - ')[0]}</Text>
             </View>
-            <View style={styles.infoCard}>
+            <View className="flex-1 bg-gray-50 p-4 rounded-xl items-center">
               <Users size={24} color="#8b5cf6" />
-              <Text style={styles.infoCardLabel}>Attendees</Text>
-              <Text style={styles.infoCardValue}>{event.attendees}+</Text>
+              <Text className="text-xs text-gray-500 mt-2 mb-1">Attendees</Text>
+              <Text className="text-sm font-semibold text-gray-800 text-center">{event.attendees}+</Text>
             </View>
           </View>
 
           {/* Description */}
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>About Event</Text>
-            <Text style={styles.description}>{event.description}</Text>
+          <View className="mb-8">
+            <Text className="text-xl font-bold text-gray-800 mb-4">About Event</Text>
+            <Text className="text-base leading-6 text-gray-600">{event.description}</Text>
           </View>
 
           {/* Highlights */}
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Event Highlights</Text>
+          <View className="mb-8">
+            <Text className="text-xl font-bold text-gray-800 mb-4">Event Highlights</Text>
             {event.highlights.map((highlight, index) => (
-              <View key={index} style={styles.highlightItem}>
-                <View style={styles.highlightDot} />
-                <Text style={styles.highlightText}>{highlight}</Text>
+              <View key={index} className="flex-row items-start mb-3">
+                <View className="w-1.5 h-1.5 rounded-full bg-sky-500 mt-2 mr-3" />
+                <Text className="flex-1 text-[15px] text-gray-600 leading-[22px]">{highlight}</Text>
               </View>
             ))}
           </View>
 
           {/* Artists/Speakers (if available) */}
           {event.artists.length > 0 && (
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Featured Artists</Text>
-              <View style={styles.artistsContainer}>
+            <View className="mb-8">
+              <Text className="text-xl font-bold text-gray-800 mb-4">Featured Artists</Text>
+              <View className="flex-row flex-wrap gap-2">
                 {event.artists.map((artist, index) => (
-                  <View key={index} style={styles.artistChip}>
-                    <Text style={styles.artistText}>{artist}</Text>
+                  <View key={index} className="bg-blue-50 px-4 py-2.5 rounded-3xl border border-blue-200">
+                    <Text className="text-sm font-semibold text-blue-800">{artist}</Text>
                   </View>
                 ))}
               </View>
@@ -240,19 +248,19 @@ export default function EventDetailScreen() {
           )}
 
           {/* Location */}
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Location</Text>
-            <View style={styles.locationCard}>
+          <View className="mb-8">
+            <Text className="text-xl font-bold text-gray-800 mb-4">Location</Text>
+            <View className="flex-row items-start bg-gray-50 p-4 rounded-xl mb-4 gap-3">
               <MapPin size={20} color="#0ea5e9" />
-              <View style={styles.locationInfo}>
-                <Text style={styles.locationName}>{event.location}</Text>
-                <Text style={styles.locationAddress}>{event.fullAddress}</Text>
+              <View className="flex-1">
+                <Text className="text-base font-semibold text-gray-800 mb-1">{event.location}</Text>
+                <Text className="text-sm text-gray-500 leading-5">{event.fullAddress}</Text>
               </View>
             </View>
 
             {/* Map */}
             <TouchableOpacity
-              style={styles.mapContainer}
+              className="h-[200px] rounded-xl overflow-hidden relative"
               onPress={openInMaps}
               activeOpacity={0.8}
             >
@@ -260,11 +268,11 @@ export default function EventDetailScreen() {
                 source={{
                   uri: `https://maps.googleapis.com/maps/api/staticmap?center=${event.latitude},${event.longitude}&zoom=15&size=600x250&markers=color:red%7C${event.latitude},${event.longitude}&key=YOUR_API_KEY`
                 }}
-                style={styles.mapImage}
+                className="w-full h-full bg-gray-200"
               />
-              <View style={styles.mapOverlay}>
+              <View className="absolute bottom-0 left-0 right-0 bg-black/75 flex-row items-center justify-center p-4 gap-2">
                 <Navigation size={20} color="#ffffff" />
-                <Text style={styles.mapOverlayText}>Open in Maps</Text>
+                <Text className="text-white text-base font-semibold">Open in Maps</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -272,336 +280,36 @@ export default function EventDetailScreen() {
       </ScrollView>
 
       {/* Bottom Booking Bar */}
-      <View style={styles.bookingBar}>
-        <View style={styles.priceContainer}>
-          <Text style={styles.priceLabel}>Price per ticket</Text>
-          <Text style={styles.price}>${event.price}</Text>
+      <View className="flex-row items-center p-4 pb-8 bg-white border-t border-gray-200 gap-3 shadow-lg">
+        <View className="flex-1">
+          <Text className="text-xs text-gray-500 mb-0.5">Price per ticket</Text>
+          <Text className="text-2xl font-bold text-gray-800">${event.price}</Text>
         </View>
         
-        <View style={styles.ticketSelector}>
+        <View className="flex-row items-center bg-gray-100 rounded-xl p-1">
           <TouchableOpacity 
-            style={styles.ticketButton}
+            className="w-9 h-9 items-center justify-center bg-white rounded-lg"
             onPress={() => setTicketCount(Math.max(1, ticketCount - 1))}
           >
-            <Text style={styles.ticketButtonText}>-</Text>
+            <Text className="text-xl font-bold text-gray-800">-</Text>
           </TouchableOpacity>
-          <Text style={styles.ticketCount}>{ticketCount}</Text>
+          <Text className="text-lg font-semibold text-gray-800 px-4">{ticketCount}</Text>
           <TouchableOpacity 
-            style={styles.ticketButton}
+            className="w-9 h-9 items-center justify-center bg-white rounded-lg"
             onPress={() => setTicketCount(Math.min(10, ticketCount + 1))}
           >
-            <Text style={styles.ticketButtonText}>+</Text>
+            <Text className="text-xl font-bold text-gray-800">+</Text>
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.bookButton} onPress={handleBookNow}>
+        <TouchableOpacity 
+          className="flex-row bg-sky-500 px-6 py-3.5 rounded-xl items-center gap-2"
+          onPress={handleBookNow}
+        >
           <Ticket size={20} color="#ffffff" />
-          <Text style={styles.bookButtonText}>Book Now</Text>
+          <Text className="text-white text-base font-semibold">Book Now</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-  },
-  headerContainer: {
-    position: 'relative',
-  },
-  backButton: {
-    position: 'absolute',
-    left: 20,
-    top: 70,
-    zIndex: 10,
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#ffffff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  headerActions: {
-    position: 'absolute',
-    right: 20,
-    top: 70,
-    zIndex: 10,
-    flexDirection: 'row',
-    gap: 8,
-  },
-  headerActionButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#ffffff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  heroContainer: {
-    height: 300,
-    position: 'relative',
-  },
-  heroImage: {
-    width: '100%',
-    height: '100%',
-  },
-  heroCategoryBadge: {
-    position: 'absolute',
-    bottom: 20,
-    left: 20,
-    backgroundColor: 'rgba(14, 165, 233, 0.95)',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 24,
-  },
-  heroCategoryText: {
-    color: '#ffffff',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  content: {
-    padding: 20,
-  },
-  titleSection: {
-    marginBottom: 12,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#1f2937',
-    marginBottom: 12,
-  },
-  ratingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  rating: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#1f2937',
-  },
-  reviews: {
-    fontSize: 14,
-    color: '#6b7280',
-  },
-  organizerSection: {
-    marginBottom: 24,
-  },
-  organizerLabel: {
-    fontSize: 14,
-    color: '#6b7280',
-    marginBottom: 4,
-  },
-  organizerName: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#1f2937',
-  },
-  infoCards: {
-    flexDirection: 'row',
-    gap: 12,
-    marginBottom: 32,
-  },
-  infoCard: {
-    flex: 1,
-    backgroundColor: '#f9fafb',
-    padding: 16,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  infoCardLabel: {
-    fontSize: 12,
-    color: '#6b7280',
-    marginTop: 8,
-    marginBottom: 4,
-  },
-  infoCardValue: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#1f2937',
-    textAlign: 'center',
-  },
-  section: {
-    marginBottom: 32,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#1f2937',
-    marginBottom: 16,
-  },
-  description: {
-    fontSize: 16,
-    lineHeight: 24,
-    color: '#4b5563',
-  },
-  highlightItem: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: 12,
-  },
-  highlightDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: '#0ea5e9',
-    marginTop: 8,
-    marginRight: 12,
-  },
-  highlightText: {
-    flex: 1,
-    fontSize: 15,
-    color: '#4b5563',
-    lineHeight: 22,
-  },
-  artistsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
-  artistChip: {
-    backgroundColor: '#eff6ff',
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: 24,
-    borderWidth: 1,
-    borderColor: '#bfdbfe',
-  },
-  artistText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#1e40af',
-  },
-  locationCard: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    backgroundColor: '#f9fafb',
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 16,
-    gap: 12,
-  },
-  locationInfo: {
-    flex: 1,
-  },
-  locationName: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#1f2937',
-    marginBottom: 4,
-  },
-  locationAddress: {
-    fontSize: 14,
-    color: '#6b7280',
-    lineHeight: 20,
-  },
-  mapContainer: {
-    height: 200,
-    borderRadius: 12,
-    overflow: 'hidden',
-    position: 'relative',
-  },
-  mapImage: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#e5e7eb',
-  },
-  mapOverlay: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.75)',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 16,
-    gap: 8,
-  },
-  mapOverlayText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  bookingBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
-    paddingBottom: 32,
-    backgroundColor: '#ffffff',
-    borderTopWidth: 1,
-    borderTopColor: '#e5e7eb',
-    gap: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 8,
-  },
-  priceContainer: {
-    flex: 1,
-  },
-  priceLabel: {
-    fontSize: 12,
-    color: '#6b7280',
-    marginBottom: 2,
-  },
-  price: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#1f2937',
-  },
-  ticketSelector: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f3f4f6',
-    borderRadius: 12,
-    padding: 4,
-  },
-  ticketButton: {
-    width: 36,
-    height: 36,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#ffffff',
-    borderRadius: 8,
-  },
-  ticketButtonText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#1f2937',
-  },
-  ticketCount: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#1f2937',
-    paddingHorizontal: 16,
-  },
-  bookButton: {
-    flexDirection: 'row',
-    backgroundColor: '#0ea5e9',
-    paddingHorizontal: 24,
-    paddingVertical: 14,
-    borderRadius: 12,
-    alignItems: 'center',
-    gap: 8,
-  },
-  bookButtonText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-});

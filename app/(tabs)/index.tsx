@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Image, TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Search, Calendar, MapPin, Users, Star, TrendingUp } from 'lucide-react-native';
 
@@ -107,18 +107,18 @@ export default function HomeScreen() {
   const featuredEvents = EVENTS.filter(e => e.isFeatured);
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1 bg-gray-50">
       {/* Header with Search */}
-      <View style={styles.header}>
-        <View style={styles.greetingSection}>
-          <Text style={styles.greeting}>Hello! 👋</Text>
-          <Text style={styles.title}>Discover Events</Text>
+      <View className="bg-white pt-15 px-5 pb-4 rounded-b-2xl shadow-md">
+        <View className="mb-4">
+          <Text className="text-base text-gray-500 mb-1">Hello! 👋</Text>
+          <Text className="text-3xl font-bold text-gray-800">Discover Events</Text>
         </View>
         
-        <View style={styles.searchContainer}>
+        <View className="flex-row items-center bg-gray-100 px-4 py-3 rounded-2xl">
           <Search size={20} color="#6b7280" />
           <TextInput
-            style={styles.searchInput}
+            className="flex-1 text-base text-gray-800 ml-2"
             placeholder="Search events..."
             placeholderTextColor="#9ca3af"
             value={searchQuery}
@@ -127,43 +127,50 @@ export default function HomeScreen() {
         </View>
       </View>
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         {/* Featured Events */}
         {searchQuery === '' && selectedCategory === 'All' && (
-          <View style={styles.section}>
-            <View style={styles.sectionHeader}>
-              <View style={styles.sectionTitleContainer}>
+          <View className="mt-5 px-5">
+            <View className="flex-row justify-between items-center mb-3">
+              <View className="flex-row items-center" style={{ gap: 8 }}>
                 <TrendingUp size={20} color="#0ea5e9" />
-                <Text style={styles.sectionTitle}>Featured Events</Text>
+                <Text className="text-xl font-bold text-gray-800">Featured Events</Text>
               </View>
             </View>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.featuredScroll}>
+            <ScrollView 
+              horizontal 
+              showsHorizontalScrollIndicator={false} 
+              className="-ml-5 mt-3"
+            >
               {featuredEvents.map(event => (
                 <TouchableOpacity
                   key={event.id}
-                  style={styles.featuredCard}
+                  className="ml-5 rounded-2xl overflow-hidden bg-white shadow-lg"
+                  style={{ width: 320, height: 240 }}
                   onPress={() => router.push(`/events/${event.id}`)}
                   activeOpacity={0.9}
                 >
-                  <Image source={{ uri: event.image }} style={styles.featuredImage} />
-                  <View style={styles.featuredOverlay}>
-                    <View style={styles.featuredBadge}>
+                  <Image source={{ uri: event.image }} className="w-full h-full" />
+                  <View className="absolute bottom-0 left-0 right-0 top-0 bg-black/40 justify-between p-4">
+                    <View className="flex-row items-center self-start bg-amber-400/90 px-2.5 py-1.5 rounded-full" style={{ gap: 4 }}>
                       <Star size={12} color="#fbbf24" fill="#fbbf24" />
-                      <Text style={styles.featuredBadgeText}>Featured</Text>
+                      <Text className="text-white text-xs font-semibold">Featured</Text>
                     </View>
-                    <View style={styles.featuredInfo}>
-                      <Text style={styles.featuredTitle} numberOfLines={2}>{event.title}</Text>
-                      <View style={styles.featuredDetails}>
-                        <View style={styles.featuredDetail}>
+                    <View style={{ gap: 8 }}>
+                      <Text className="text-xl font-bold text-white" numberOfLines={2}>
+                        {event.title}
+                      </Text>
+                      <View className="flex-row" style={{ gap: 16 }}>
+                        <View className="flex-row items-center" style={{ gap: 6 }}>
                           <Calendar size={14} color="#ffffff" />
-                          <Text style={styles.featuredDetailText}>{event.date}</Text>
+                          <Text className="text-white text-xs">{event.date}</Text>
                         </View>
-                        <View style={styles.featuredDetail}>
+                        <View className="flex-row items-center" style={{ gap: 6 }}>
                           <MapPin size={14} color="#ffffff" />
-                          <Text style={styles.featuredDetailText}>{event.shortLocation}</Text>
+                          <Text className="text-white text-xs">{event.shortLocation}</Text>
                         </View>
                       </View>
-                      <Text style={styles.featuredPrice}>${event.price}</Text>
+                      <Text className="text-2xl font-bold text-white">${event.price}</Text>
                     </View>
                   </View>
                 </TouchableOpacity>
@@ -173,20 +180,24 @@ export default function HomeScreen() {
         )}
 
         {/* Categories */}
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoriesContainer}>
+        <ScrollView 
+          horizontal 
+          showsHorizontalScrollIndicator={false} 
+          className="mt-5 px-5 mb-2"
+        >
           {CATEGORIES.map(category => (
             <TouchableOpacity
               key={category}
-              style={[
-                styles.categoryChip,
-                selectedCategory === category && styles.categoryChipActive
-              ]}
+              className={`px-5 py-2.5 rounded-3xl mr-2 border ${
+                selectedCategory === category 
+                  ? 'bg-sky-500 border-sky-500' 
+                  : 'bg-white border-gray-200'
+              }`}
               onPress={() => setSelectedCategory(category)}
             >
-              <Text style={[
-                styles.categoryText,
-                selectedCategory === category && styles.categoryTextActive
-              ]}>
+              <Text className={`text-sm font-semibold ${
+                selectedCategory === category ? 'text-white' : 'text-gray-500'
+              }`}>
                 {category}
               </Text>
             </TouchableOpacity>
@@ -194,53 +205,64 @@ export default function HomeScreen() {
         </ScrollView>
 
         {/* All Events */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>
+        <View className="mt-5 px-5">
+          <Text className="text-xl font-bold text-gray-800">
             {selectedCategory === 'All' ? 'All Events' : selectedCategory}
           </Text>
-          <Text style={styles.sectionSubtitle}>{filteredEvents.length} events available</Text>
+          <Text className="text-sm text-gray-500 mt-1">
+            {filteredEvents.length} events available
+          </Text>
         </View>
 
-        <View style={styles.eventsGrid}>
+        <View className="px-5 pt-2 pb-5">
           {filteredEvents.map(event => (
             <TouchableOpacity
               key={event.id}
-              style={styles.eventCard}
+              className="bg-white rounded-2xl mb-4 overflow-hidden shadow-md"
               onPress={() => router.push(`/events/${event.id}`)}
               activeOpacity={0.9}
             >
-              <Image source={{ uri: event.image }} style={styles.eventImage} />
+              <Image 
+                source={{ uri: event.image }} 
+                className="w-full h-48 bg-gray-200" 
+              />
               
               {/* Category Badge */}
-              <View style={styles.categoryBadge}>
-                <Text style={styles.categoryBadgeText}>{event.category}</Text>
+              <View className="absolute top-3 left-3 bg-sky-500/90 px-3 py-1.5 rounded-full">
+                <Text className="text-white text-xs font-semibold">{event.category}</Text>
               </View>
 
               {/* Rating */}
-              <View style={styles.ratingBadge}>
+              <View className="absolute top-3 right-3 flex-row items-center bg-white/95 px-2.5 py-1.5 rounded-full" style={{ gap: 4 }}>
                 <Star size={12} color="#fbbf24" fill="#fbbf24" />
-                <Text style={styles.ratingText}>{event.rating}</Text>
+                <Text className="text-xs font-semibold text-gray-800">{event.rating}</Text>
               </View>
 
-              <View style={styles.eventInfo}>
-                <Text style={styles.eventTitle} numberOfLines={2}>{event.title}</Text>
+              <View className="p-4">
+                <Text className="text-lg font-bold text-gray-800 mb-3" numberOfLines={2}>
+                  {event.title}
+                </Text>
                 
-                <View style={styles.eventDetail}>
+                <View className="flex-row items-center mb-2" style={{ gap: 8 }}>
                   <Calendar size={14} color="#6b7280" />
-                  <Text style={styles.eventDetailText}>{event.date} • {event.time}</Text>
+                  <Text className="text-sm text-gray-500 flex-1">
+                    {event.date} • {event.time}
+                  </Text>
                 </View>
 
-                <View style={styles.eventDetail}>
+                <View className="flex-row items-center mb-3" style={{ gap: 8 }}>
                   <MapPin size={14} color="#6b7280" />
-                  <Text style={styles.eventDetailText} numberOfLines={1}>{event.location}</Text>
+                  <Text className="text-sm text-gray-500 flex-1" numberOfLines={1}>
+                    {event.location}
+                  </Text>
                 </View>
 
-                <View style={styles.eventFooter}>
-                  <View style={styles.attendeesContainer}>
+                <View className="flex-row justify-between items-center mt-3 pt-3 border-t border-gray-100">
+                  <View className="flex-row items-center" style={{ gap: 6 }}>
                     <Users size={14} color="#6b7280" />
-                    <Text style={styles.attendeesText}>{event.attendees}+</Text>
+                    <Text className="text-xs text-gray-500">{event.attendees}+</Text>
                   </View>
-                  <Text style={styles.eventPrice}>${event.price}</Text>
+                  <Text className="text-xl font-bold text-sky-500">${event.price}</Text>
                 </View>
               </View>
             </TouchableOpacity>
@@ -248,301 +270,17 @@ export default function HomeScreen() {
         </View>
 
         {filteredEvents.length === 0 && (
-          <View style={styles.emptyState}>
+          <View className="items-center justify-center py-15 px-10">
             <Search size={60} color="#d1d5db" />
-            <Text style={styles.emptyTitle}>No events found</Text>
-            <Text style={styles.emptyText}>Try adjusting your search or filters</Text>
+            <Text className="text-xl font-bold text-gray-800 mt-4 mb-2">No events found</Text>
+            <Text className="text-base text-gray-500 text-center">
+              Try adjusting your search or filters
+            </Text>
           </View>
         )}
         
-        <View style={{ height: 20 }} />
+        <View className="h-5" />
       </ScrollView>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f9fafb',
-  },
-  header: {
-    backgroundColor: '#ffffff',
-    paddingTop: 60,
-    paddingHorizontal: 20,
-    paddingBottom: 16,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 3,
-  },
-  greetingSection: {
-    marginBottom: 16,
-  },
-  greeting: {
-    fontSize: 16,
-    color: '#6b7280',
-    marginBottom: 4,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#1f2937',
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f3f4f6',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderRadius: 16,
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: 16,
-    color: '#1f2937',
-    marginLeft: 8,
-  },
-  content: {
-    flex: 1,
-  },
-  section: {
-    marginTop: 20,
-    paddingHorizontal: 20,
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  sectionTitleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#1f2937',
-  },
-  sectionSubtitle: {
-    fontSize: 14,
-    color: '#6b7280',
-    marginTop: 4,
-  },
-  featuredScroll: {
-    marginTop: 12,
-    marginLeft: -20,
-  },
-  featuredCard: {
-    width: 320,
-    height: 240,
-    marginLeft: 20,
-    borderRadius: 16,
-    overflow: 'hidden',
-    backgroundColor: '#ffffff',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 12,
-    elevation: 6,
-  },
-  featuredImage: {
-    width: '100%',
-    height: '100%',
-  },
-  featuredOverlay: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    top: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    justifyContent: 'space-between',
-    padding: 16,
-  },
-  featuredBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'flex-start',
-    backgroundColor: 'rgba(251, 191, 36, 0.9)',
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 20,
-    gap: 4,
-  },
-  featuredBadgeText: {
-    color: '#ffffff',
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  featuredInfo: {
-    gap: 8,
-  },
-  featuredTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#ffffff',
-  },
-  featuredDetails: {
-    flexDirection: 'row',
-    gap: 16,
-  },
-  featuredDetail: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  featuredDetailText: {
-    color: '#ffffff',
-    fontSize: 13,
-  },
-  featuredPrice: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#ffffff',
-  },
-  categoriesContainer: {
-    marginTop: 20,
-    paddingHorizontal: 20,
-    marginBottom: 8,
-  },
-  categoryChip: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 24,
-    backgroundColor: '#ffffff',
-    marginRight: 8,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-  },
-  categoryChipActive: {
-    backgroundColor: '#0ea5e9',
-    borderColor: '#0ea5e9',
-  },
-  categoryText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#6b7280',
-  },
-  categoryTextActive: {
-    color: '#ffffff',
-  },
-  eventsGrid: {
-    paddingHorizontal: 20,
-    paddingTop: 8,
-    paddingBottom: 20,
-  },
-  eventCard: {
-    backgroundColor: '#ffffff',
-    borderRadius: 16,
-    marginBottom: 16,
-    overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
-  },
-  eventImage: {
-    width: '100%',
-    height: 180,
-    backgroundColor: '#e5e7eb',
-  },
-  categoryBadge: {
-    position: 'absolute',
-    top: 12,
-    left: 12,
-    backgroundColor: 'rgba(14, 165, 233, 0.9)',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 20,
-  },
-  categoryBadgeText: {
-    color: '#ffffff',
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  ratingBadge: {
-    position: 'absolute',
-    top: 12,
-    right: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 20,
-    gap: 4,
-  },
-  ratingText: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#1f2937',
-  },
-  eventInfo: {
-    padding: 16,
-  },
-  eventTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#1f2937',
-    marginBottom: 12,
-  },
-  eventDetail: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    marginBottom: 8,
-  },
-  eventDetailText: {
-    fontSize: 14,
-    color: '#6b7280',
-    flex: 1,
-  },
-  eventFooter: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 12,
-    paddingTop: 12,
-    borderTopWidth: 1,
-    borderTopColor: '#f3f4f6',
-  },
-  attendeesContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  attendeesText: {
-    fontSize: 13,
-    color: '#6b7280',
-  },
-  eventPrice: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#0ea5e9',
-  },
-  emptyState: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 60,
-    paddingHorizontal: 40,
-  },
-  emptyTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#1f2937',
-    marginTop: 16,
-    marginBottom: 8,
-  },
-  emptyText: {
-    fontSize: 16,
-    color: '#6b7280',
-    textAlign: 'center',
-  },
-});

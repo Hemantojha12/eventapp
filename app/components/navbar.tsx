@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import { Search } from 'lucide-react-native';
 
 interface NavbarProps {
@@ -15,27 +15,27 @@ export default function Navbar({
   title 
 }: NavbarProps) {
   return (
-    <View style={styles.navbar}>
+    <View className="bg-white pt-[60px] pb-3 px-5 border-b border-gray-200 shadow-sm">
       {/* Logo */}
-      <View style={styles.logoContainer}>
+      <View className="mb-3">
         <Image 
           source={require('../../assets/images/logo.png')} 
-          style={styles.logo}
+          className="w-[120px] h-10"
           resizeMode="contain"
         />
       </View>
 
       {/* Optional Title */}
       {title && !showSearch && (
-        <Text style={styles.pageTitle}>{title}</Text>
+        <Text className="text-xl font-semibold text-gray-800 mt-1">{title}</Text>
       )}
 
       {/* Search Bar (Optional) */}
       {showSearch && (
-        <View style={styles.navSearchContainer}>
+        <View className="flex-row items-center bg-gray-50 px-3.5 py-2.5 rounded-xl border border-gray-200 gap-2.5">
           <Search size={18} color="#9ca3af" />
           <TextInput
-            style={styles.navSearchInput}
+            className="flex-1 text-[15px] text-gray-800"
             placeholder="Search events..."
             value={searchQuery}
             onChangeText={onSearchChange}
@@ -43,7 +43,7 @@ export default function Navbar({
           />
           {searchQuery && searchQuery.length > 0 && (
             <TouchableOpacity onPress={() => onSearchChange?.('')}>
-              <Text style={styles.clearButton}>✕</Text>
+              <Text className="text-lg text-gray-400 px-1">✕</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -51,53 +51,3 @@ export default function Navbar({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  navbar: {
-    backgroundColor: '#ffffff',
-    paddingTop: 60,
-    paddingBottom: 12,
-    paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e5e7eb',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 3,
-    elevation: 3,
-  },
-  logoContainer: {
-    marginBottom: 12,
-  },
-  logo: {
-    width: 120,
-    height: 40,
-  },
-  pageTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#1f2937',
-    marginTop: 4,
-  },
-  navSearchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f9fafb',
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    gap: 10,
-  },
-  navSearchInput: {
-    flex: 1,
-    fontSize: 15,
-    color: '#1f2937',
-  },
-  clearButton: {
-    fontSize: 18,
-    color: '#9ca3af',
-    paddingHorizontal: 4,
-  },
-});

@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   ScrollView,
   TouchableOpacity,
   Alert,
@@ -83,9 +82,9 @@ export default function BookingScreen() {
 
   if (loading) {
     return (
-      <View style={styles.container}>
-        <View style={styles.content}>
-          <Text style={styles.loadingText}>Loading...</Text>
+      <View className="flex-1 bg-gray-50">
+        <View className="flex-1">
+          <Text className="text-base text-gray-500 text-center mt-10">Loading...</Text>
         </View>
       </View>
     );
@@ -96,29 +95,35 @@ export default function BookingScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      <ScrollView style={styles.content}>
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Event</Text>
-          <Text style={styles.eventName}>Music Festival 2025</Text>
-          <Text style={styles.eventDetails}>February 15, 2025 • Central Park</Text>
+    <View className="flex-1 bg-gray-50">
+      <ScrollView className="flex-1">
+        <View className="bg-white p-5 mb-3">
+          <Text className="text-base font-semibold text-gray-500 mb-3">Event</Text>
+          <Text className="text-xl font-bold text-gray-800 mb-1">Music Festival 2025</Text>
+          <Text className="text-sm text-gray-500">February 15, 2025 • Central Park</Text>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Number of Tickets</Text>
-          <View style={styles.ticketSelector}>
+        <View className="bg-white p-5 mb-3">
+          <Text className="text-base font-semibold text-gray-500 mb-3">Number of Tickets</Text>
+          <View className="flex-row items-center justify-center gap-8">
             <TouchableOpacity
-              style={[styles.ticketButton, ticketCount === 1 && styles.ticketButtonDisabled]}
+              className={`w-12 h-12 rounded-full items-center justify-center ${
+                ticketCount === 1 ? 'bg-gray-100' : 'bg-sky-100'
+              }`}
               onPress={decreaseTickets}
               disabled={ticketCount === 1}
             >
               <Minus size={24} color={ticketCount === 1 ? '#9ca3af' : '#0ea5e9'} />
             </TouchableOpacity>
 
-            <Text style={styles.ticketCount}>{ticketCount}</Text>
+            <Text className="text-3xl font-bold text-gray-800 min-w-[60px] text-center">
+              {ticketCount}
+            </Text>
 
             <TouchableOpacity
-              style={[styles.ticketButton, ticketCount === MAX_TICKETS && styles.ticketButtonDisabled]}
+              className={`w-12 h-12 rounded-full items-center justify-center ${
+                ticketCount === MAX_TICKETS ? 'bg-gray-100' : 'bg-sky-100'
+              }`}
               onPress={increaseTickets}
               disabled={ticketCount === MAX_TICKETS}
             >
@@ -127,135 +132,30 @@ export default function BookingScreen() {
           </View>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Price Summary</Text>
-          <View style={styles.priceRow}>
-            <Text style={styles.priceLabel}>
+        <View className="bg-white p-5 mb-3">
+          <Text className="text-base font-semibold text-gray-500 mb-3">Price Summary</Text>
+          <View className="flex-row justify-between items-center mb-3">
+            <Text className="text-base text-gray-500">
               Ticket Price × {ticketCount}
             </Text>
-            <Text style={styles.priceValue}>${TICKET_PRICE * ticketCount}</Text>
+            <Text className="text-base text-gray-800 font-medium">${TICKET_PRICE * ticketCount}</Text>
           </View>
-          <View style={styles.divider} />
-          <View style={styles.priceRow}>
-            <Text style={styles.totalLabel}>Total</Text>
-            <Text style={styles.totalValue}>${totalPrice}</Text>
+          <View className="h-[1px] bg-gray-200 my-3" />
+          <View className="flex-row justify-between items-center mb-3">
+            <Text className="text-lg font-bold text-gray-800">Total</Text>
+            <Text className="text-2xl font-bold text-sky-500">${totalPrice}</Text>
           </View>
         </View>
       </ScrollView>
 
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.bookButton} onPress={handleBooking}>
-          <Text style={styles.bookButtonText}>Confirm Booking</Text>
+      <View className="p-5 bg-white border-t border-gray-200">
+        <TouchableOpacity 
+          className="bg-sky-500 p-4 rounded-xl items-center"
+          onPress={handleBooking}
+        >
+          <Text className="text-white text-base font-semibold">Confirm Booking</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f9fafb',
-  },
-  content: {
-    flex: 1,
-  },
-  section: {
-    backgroundColor: '#ffffff',
-    padding: 20,
-    marginBottom: 12,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#6b7280',
-    marginBottom: 12,
-  },
-  eventName: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#1f2937',
-    marginBottom: 4,
-  },
-  eventDetails: {
-    fontSize: 14,
-    color: '#6b7280',
-  },
-  ticketSelector: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 32,
-  },
-  ticketButton: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: '#e0f2fe',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  ticketButtonDisabled: {
-    backgroundColor: '#f3f4f6',
-  },
-  ticketCount: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#1f2937',
-    minWidth: 60,
-    textAlign: 'center',
-  },
-  priceRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  priceLabel: {
-    fontSize: 16,
-    color: '#6b7280',
-  },
-  priceValue: {
-    fontSize: 16,
-    color: '#1f2937',
-    fontWeight: '500',
-  },
-  divider: {
-    height: 1,
-    backgroundColor: '#e5e7eb',
-    marginVertical: 12,
-  },
-  totalLabel: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#1f2937',
-  },
-  totalValue: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#0ea5e9',
-  },
-  footer: {
-    padding: 20,
-    backgroundColor: '#ffffff',
-    borderTopWidth: 1,
-    borderTopColor: '#e5e7eb',
-  },
-  bookButton: {
-    backgroundColor: '#0ea5e9',
-    padding: 16,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  bookButtonText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  loadingText: {
-    fontSize: 16,
-    color: '#6b7280',
-    textAlign: 'center',
-    marginTop: 40,
-  },
-});

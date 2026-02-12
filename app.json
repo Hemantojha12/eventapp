@@ -1,44 +1,20 @@
 {
   "expo": {
-    "name": "Eventa",
+    "name": "eventa-app",
     "slug": "eventa-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "sdkVersion": "54.0.0",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
+    "scheme": "eventaapp",
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.youreventa.app"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.youreventa.app"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png",
-      "bundler": "metro"
-    },
-    "plugins": [
-      "expo-router",
-      "@react-native-google-signin/google-signin",
-      "expo-web-browser"
-    ],
-    "scheme": "eventa",
-    "extra": {
-      "router": {
-        "origin": false
+        "backgroundColor": "#0ea5e9"
       }
     }
   }
